@@ -1,5 +1,5 @@
 import sqlalchemy
-import werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 
 db = sqlalchemy()
@@ -30,30 +30,30 @@ class Workout(db.Model):
     id = db.Column('id', db.Integer, primary_key = True)
     user_id = db.Column('user_id', db.Integer, db.Foriegnkey('User.id'))
     comment = db.Column(db.String(225))
-    creation_date = db.Column(db.DateTime.date())
+    creation_date = db.Column(db.dateTime.datetime.date())
     
     def toDict(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
             "comment": self.comment,
-            "creation_date": self.creation_date.strftime(%D)
+            "creation_date": self.creation_date.strftime("%x")
         }
 
 class Workout_Session(db.Model):
     id = db.Column('id', db.Integer, primary_key = True)
     workout_id = db.Column('workout_id', db.Integer, db.Foreignkey('Workout.id'))
     user_id = db.Column('user_id', db.Integer, db.Foreignkey('User.id'))
-    date = db.Column(db.DateTime.date())
+    date = db.Column(db.dateTime.datetime.date())
     impression = db.Column(db.CHAR, nullable = False)
     notes = db.Column(db.String(225))
     
     def toDict(self):
         return {
             "id": self.id,
-            "workout_id": self.workout_id
-            "user_id": self.user_id
-            "date": self.date.strftime(%D)
+            "workout_id": self.workout_id,
+            "user_id": self.user_id,
+            "date": self.date.strftime("%x")
         }
             
 class Weight(db.Model):
@@ -93,7 +93,7 @@ class Workout_Log(db.Model):
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('User.id'))
     workout_id = db.Column('workout_id', db.Integer, db.Foreignkey('Workout.id'))
     weight_id = db.Column('weight_id', db.Integer, db.ForeignKey('Weight.id'))
-    date = db.Column(db.DateTime.Today(), nullable = False)
+    date = db.Column(db.dateTime.dateTime.now(), nullable = False)
     reps = db.Column(db.Integer, db.select([Repitition.value]).where(Repitition.id == repitition_id))
     weight = db.Column(db.Decimal, db.select([Weight.value]).where(Weight.id == weight_id))
 
@@ -105,7 +105,7 @@ class Workout_Log(db.Model):
             "user_id": self.user_id,
             "workout_id": self.workout_id,
             "weight_id": self.weight_id,
-            "date": self.date.strftime(%D),
+            "date": self.date.strftime("%x"),
             "reps": self.reps,
             "weight": self.weight
         }
