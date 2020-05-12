@@ -41,7 +41,13 @@ class Workout_Log(db.model):
     reps = db.Column(db.Integer, db.select([Repitition.value]).where(Repitition.id == repitition_id))
     weight = db.Column(db.Decimal, db.select([Weight.value]).where(Weight.id == weight_id))
 
-
-
+class Setting(db.model):
+    id = db.Column('id', db.Integer, primary_key = True)
+    exercise_id = db.Column('exercise_id', db.Integer, db.ForeignKey('Exercise.id'))
+    repitition_id = db.Column('repitition_id', db.Integer, db.Foreignkey('Repitition.id'))
+    weight_id = db.Column('weight_id', db.Integer, db.ForeignKey('Weight.id'))
+    comment = db.Column(db.String(225))
+    reps = db.Column(db.Integer, db.select([Repitition.value]).where(Repitition.id == repitition_id))
+    weight = db.Column(db.Decimal, db.select([Weight.value]).where(Weight.id == weight_id))
 
 
