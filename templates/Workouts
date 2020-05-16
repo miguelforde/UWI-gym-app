@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{{ super() }}
+{% block content %}
+<style>
+
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:visited{
+      color: black;
+    }
+
+    thead{
+      font-size: 200%
+    }
+    
+    td{
+      text-align: left;
+    }
+
+    td a{
+      text-align: right;
+    }
+
+</style>
+<ul>
+{% for workout in workouts %}
+  <li>{{workout.name}}</li>
+{% endfor %}
+</ul>
+<ul>
+  <li><a href="/addworkout">Create Your Custom Workout</a></li>
+  <li><a href="/MyWorkouts">View Your Routines </a></li>
+</ul>
+
+  
+{% endblock %}
