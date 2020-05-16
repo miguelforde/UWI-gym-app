@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{{ super() }}
+
+<style>  
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:visited{
+      color: black;
+    }
+
+    table{
+      border-spacing: 10px;
+      text-align: center;
+    }
+
+    thead{
+      font-size: 200%
+    }
+    
+    td input{
+      width: 50px;
+    }
+
+  </style>
+
+
+{% block content %}
+  {% if current_user.is_authenticated %}
+  
+  <table>
+    <tr>
+      <th>Exercise Name</th>
+      <th>Target Area</th>
+    </tr>
+    {% for exercise in exercises %}
+    <tr>
+      <td>{{exercise.name}}</td>
+      <td>{{exercise.target}}</td>
+    </tr>
+    
+  </table>
+
+  {% endif %}
+
+
+{% endblock %}
+
