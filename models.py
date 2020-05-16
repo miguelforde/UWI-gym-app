@@ -10,15 +10,18 @@ class User(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key=True)
   fname = db.Column(db.String(50), nullable=False)
   lname = db.Column(db.String(50), nullable=False)
+  username = db.Column(db.String(50), nullable=False, unique=True)
   dob = db.Column(db.String(20))
   email = db.Column(db.String(120), unique=True, nullable=False)
   password = db.Column(db.String(120), nullable=False)
+  workouts = db.relationship('Workout', backref = 'user', lazy = 'dynamic')
 
   def toDict(self):
     return {
     'fname': self.fname,
     'lname': self.lname,
     'email': self.email,
+    'username': self.username,
     'dob': self.dob
     }
 
@@ -32,90 +35,45 @@ class Workout(db.Model):
   __tablename__ = "Workout"
   id = db.Column('id', db.Integer, primary_key = True)
   user_id = db.Column('user_id', db.Integer, db.ForeignKey('User.id'))
-  comment = db.Column(db.String(225))
-  creation_date = db.Column(db.DateTime, default = datetime.datetime.now())
+  name = db.Column(db.String(225))
+  exercises = db.relationship('Exercise', backref = 'workout', lazy = 'dynamic')
   
   def toDict(self):
       return {
           "id": self.id,
           "user_id": self.user_id,
-          "comment": self.comment,
-          "creation_date": self.creation_date.strftime("%x")
+          "name": self.name
       }
+    
+# using csv file
+class Exercises(db.Model):
+  id = db.Column(db.Integer, primary_key = True)
+  name = db.Column(db.String(120))
+  target = db.Column(db.String(120))
 
-class Workout_Session(db.Model):
-  __tablename__ = "Session"
-  id = db.Column('id', db.Integer, primary_key = True)
-  workout_id = db.Column('workout_id', db.Integer, db.ForeignKey('Workout.id'))
-  user_id = db.Column('user_id', db.Integer, db.ForeignKey('User.id'))
-  date = db.Column(db.DateTime, default = datetime.datetime.now())
-  impression = db.Column(db.CHAR, nullable = False)
-  notes = db.Column(db.String(225))
-  
   def toDict(self):
-      return {
-          "id": self.id,
-          "workout_id": self.workout_id,
-          "user_id": self.user_id,
-          "date": self.date.strftime("%x"),
-          "impression": self.impression,
-          "notes": self.notes
-      }
-            
+    return {
+      "name" : self.name,
+      "target" : self.target
+    }
+
 class Exercise(db.Model):
-  __tablename__ = "Exercise"
-  id = db.Column('id', db.Integer, primary_key = True)
-  name = db.Column(db.String(225), nullable = False, unique = True)
-  description = db.Column(db.String(225), nullable = False,unique = True)
-  source = db.Column(db.String(225), nullable = False, unique = True)
+  id = db.Column(db.Integer, primary_key=True)
+  workout_id = db.Column(db.Integer, db.ForeignKey('Workout.id'))
+  exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+  sets = db.relationship('Setting', backref ='exercise', lazy = 'dynamic') #db.Column(db.String(10))
+  reps = db.Column(db.String(10))
 
-  def toDict(self):
-      return {
-          "id": self.id,
-          "name": self.name,
-          "description": self.description,
-          "source": self.source
-      }
-    
-class Workout_Log(db.Model):
-  __tablename__ = "Log"
-  id = db.Column('id', db.Integer, primary_key = True)
-  exercise_id = db.Column('exercise_id', db.Integer, db.ForeignKey('Exercise.id'))
-  user_id = db.Column('user_id', db.Integer, db.ForeignKey('User.id'))
-  workout_id = db.Column('workout_id', db.Integer, db.ForeignKey('Workout.id'))
-  date = db.Column(db.DateTime, default = datetime.datetime.now(), nullable = False)
-  reps = db.Column(db.Integer, nullable = False)
-  weight = db.Column(db.Integer, nullable = False)
-
-  def toDict(self):
-      return {
-          "id": self.id,
-          "exercise_id": self.exercise_id,
-          "repitition_id": self.repitition_id,
-          "user_id": self.user_id,
-          "workout_id": self.workout_id,
-          "weight_id": self.weight_id,
-          "date": self.date.strftime("%x"),
-          "reps": self.reps,
-          "weight": self.weight
-      }
-    
 class Setting(db.Model):
   __tablename__ = "Setting"
   id = db.Column('id', db.Integer, primary_key = True)
-  exercise_id = db.Column('exercise_id', db.Integer, db.ForeignKey('Exercise.id'))
-  comment = db.Column(db.String(225))
+  exercise_id = db.Column('exercise_id',db.Integer, db.ForeignKey(Exercise.id))
   reps = db.Column(db.Integer, nullable = False)
-  sets = db.Column(db.Integer, nullable = False)
   weight = db.Column(db.Integer, nullable = False)
 
   def toDict(self):
       return {
           "id": self.id,
-          "exercise_id": self.exercise_id,
-          "repitition_id": self.repitition_id,
-          "weight_id": self.weight_id,
-          "comment": self.comment,
           "reps": self.reps,
           "weight": self.weight
       }
