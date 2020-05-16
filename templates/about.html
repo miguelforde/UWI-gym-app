@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block title %}<title> About Us</title>{% endblock %} 
+
+{{ super() }}
+
+{% block content %}
+
+<style>
+body {
+  background-color: #4CAF50;
+}
+
+
+h1 {
+
+text-align: center;
+
+}
+
+p {
+
+	align: right;
+  text-align: center;
+  font-family: verdana;
+  font-size: 20px;
+ // background-color: red;
+  width: 800px;
+  border: 5px solid green;
+  padding: 40px;
+  margin: 50px;
+  margin-left: 500px;
+}
+
+
+</style>
+
+<body>
+<h1> About Us </h1>
+<p> 
+  The UWI Gym App was created to help solve the question; 
+  How effectively we lose/gain weight/ muscle mass and is there a workout plan for my body specifically? 
+  The issue with doing the wrong workout is that you could end up doing the reverse of what your goal is and obtain injuries, this often results in persons giving up on the gym or obtaining a healthier lifestyle.
+  This app implementation will assist its user to have the most effective workout tailored to his/her specification and functions by getting user information and giving them back workouts/dietary suggestions to help them reach a goal. 
+  Users can create and share routines which consist of exercises, sets and reps with images.
+</p>
+</body>
+{% endblock %}
