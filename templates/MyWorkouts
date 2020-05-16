@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}<title> My Workouts</title>{% endblock %} 
+
+{{ super() }}
+{% block content %}
+<!-- Display all workouts with the same user id -->
+<ul>
+  {% for workouts in MyWorkout %}
+  <li>
+    {workout.name}
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
