@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{{ super() }}
+{% block content %}
+<style>
+  form{
+    margin: 15px;
+  }
+</style>
+
+<div>
+  <form id = "Workout_Form" class = "formgroup" method = "POST" action = "{{ url_for('addworkout')}}">
+    <select name = "Exercises1" form ="Workout_Form">
+      {%  for exercise in exercises %}
+        <option value = '{{ exercise.id}}'>{{ exercise.name }}</option>
+      {% endfor %}
+    </select>
+    <div>
+      <label>Reps</label>
+      <input type = "number" name = "reps1" placeholder = "0">
+      <label>Weight</label>
+      <input type = "number" name = "weight1" placeholder = "0">
+    </div>
+    <select name = "Exercises2" form ="Workout_Form">
+      {%  for exercise in exercises %}
+        <option value = '{{ exercise.id}}'>{{ exercise.name }}</option>
+      {% endfor %}
+    </select>
+    <div>
+      <label>Reps</label>
+      <input type = "number" name = "reps2" placeholder = "0">
+      <label>Weight</label>
+      <input type = "number" name = "weight2" placeholder = "0">
+    </div>
+    <select name = "Exercises3" form ="Workout_Form">
+      {%  for exercise in exercises %}
+        <option value = '{{ exercise.id}}'>{{ exercise.name }}</option>
+      {% endfor %}
+    </select>
+    <div>
+      <label>Reps</label>
+      <input type = "number" name = "reps3" placeholder = "0">
+      <label>Weight</label>
+      <input type = "number" name = "weight3" placeholder = "0">
+    </div>
+    <input type = "hidden" name = "exercise_count" value = "3">
+    <button type = "submit" class = "btn btn-primary btn-block"> Add Workout</button>
+  </form>
+</div>
+
+  
+{% endblock %}
